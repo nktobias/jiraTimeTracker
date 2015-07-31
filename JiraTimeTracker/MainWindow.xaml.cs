@@ -10,12 +10,25 @@ namespace Triosoft.JiraTimeTracker
    /// </summary>
    public partial class MainWindow : Window
    {
-      private readonly JiraClient _jiraClient = new JiraClient(new Uri("https://3osoft.atlassian.net"), "login", "password");
+      private JiraClient _jiraClient;
 
       public MainWindow()
       {
          InitializeComponent();
          SetAvailabilityOfIssueRelatedButtons(false);
+      }
+
+      private void HandleWindowLoaded(object sender, RoutedEventArgs e)
+      {
+         JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow();
+         if (jiraSettingsWindow.ShowDialog() == true)
+         {
+            _jiraClient = new JiraClient(jiraSettingsWindow.ProvidedSettings);
+         }
+         else
+         {
+            Application.Current.Shutdown();
+         }
       }
 
       private async void HandleStartTrackingClick(object sender, RoutedEventArgs e)

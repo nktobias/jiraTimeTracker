@@ -12,12 +12,12 @@ namespace Triosoft.JiraTimeTracker.JiraRestApi
       private readonly Uri _baseUrl;
       private readonly RestClient _restClient;
 
-      public JiraClient(Uri baseUrl, string userName, string password)
+      public JiraClient(JiraSettings jiraSettings)
       {
-         _baseUrl = baseUrl;
-         _restClient = new RestClient(new Uri(baseUrl, "rest/api/2"))
+         _baseUrl = jiraSettings.BaseUrl;
+         _restClient = new RestClient(new Uri(jiraSettings.BaseUrl, "rest/api/2"))
          {
-            Authenticator = new HttpBasicAuthenticator(userName, password)
+            Authenticator = new HttpBasicAuthenticator(jiraSettings.UserName, jiraSettings.Password)
          };
          _restClient.AddHandler("application/json", new DynamicJsonDeserializer());
       }
