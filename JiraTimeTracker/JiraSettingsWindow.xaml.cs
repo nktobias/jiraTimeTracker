@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace Triosoft.JiraTimeTracker
 {
-   /// <summary>
-   /// Interaction logic for SettingsWindow.xaml
-   /// </summary>
    public partial class JiraSettingsWindow : Window
    {
       public JiraSettings ProvidedSettings { get; private set; }

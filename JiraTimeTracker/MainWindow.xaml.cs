@@ -5,9 +5,6 @@ using Triosoft.JiraTimeTracker.JiraRestApi;
 
 namespace Triosoft.JiraTimeTracker
 {
-   /// <summary>
-   /// Interaction logic for MainWindow.xaml
-   /// </summary>
    public partial class MainWindow : Window
    {
       private JiraClient _jiraClient;
@@ -21,6 +18,7 @@ namespace Triosoft.JiraTimeTracker
       private void HandleWindowLoaded(object sender, RoutedEventArgs e)
       {
          JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow();
+         jiraSettingsWindow.Owner = this;
          if (jiraSettingsWindow.ShowDialog() == true)
          {
             _jiraClient = new JiraClient(jiraSettingsWindow.ProvidedSettings);
