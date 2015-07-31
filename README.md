@@ -1,6 +1,6 @@
 # jiraTimeTracker
 
-### TODO
+### TODO - Release 1
 
 * ~~Basic UI~~
 * ~~Wrapping Jira REST API calls~~
@@ -8,4 +8,5 @@
 * Secure storing of settings (http://stackoverflow.com/questions/12657792/how-to-securely-save-username-password-local)
 * Time tracking
 * Editing settings
-* Pretty UI
+* UX & GUI improvements
+* CI
