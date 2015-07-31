@@ -15,14 +15,9 @@ namespace Triosoft.JiraTimeTracker.JiraRestApi
          {
             MissingMemberHandling = MissingMemberHandling.Ignore,
             NullValueHandling = NullValueHandling.Include,
-            DefaultValueHandling = DefaultValueHandling.Include
+            DefaultValueHandling = DefaultValueHandling.Include,
          };
-      }
-
-      public NewtonsoftJsonSerializer(Newtonsoft.Json.JsonSerializer serializer)
-      {
-         ContentType = "application/json";
-         _serializer = serializer;
+         _serializer.Converters.Add(new JiraDateTimeJsonConverter());
       }
 
       public string Serialize(object obj)

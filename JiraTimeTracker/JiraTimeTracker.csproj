@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="JiraRestApi\JiraDateTimeJsonConverter.cs" />
     <Compile Include="JiraRestApi\NewtonsoftJsonSerializer.cs" />
     <Compile Include="JiraRestApi\RestResponseExtensions.cs" />
     <Compile Include="JiraRestApi\RestSharpHttpException.cs" />
