@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Triosoft.JiraTimeTracker
+namespace Triosoft.JiraTimeTracker.Settings
 {
    public class JiraSettings
    {

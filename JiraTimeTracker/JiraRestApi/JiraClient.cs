@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
+using Triosoft.JiraTimeTracker.Settings;
 
 namespace Triosoft.JiraTimeTracker.JiraRestApi
 {

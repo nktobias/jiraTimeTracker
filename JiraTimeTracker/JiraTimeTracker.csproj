@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -60,7 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="JiraSettings.cs" />
+    <Compile Include="Settings\JiraSettings.cs" />
     <Compile Include="JiraRestApi\JiraDateTimeJsonConverter.cs" />
     <Compile Include="JiraRestApi\NewtonsoftJsonSerializer.cs" />
     <Compile Include="JiraRestApi\RestResponseExtensions.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="JiraSettingsWindow.xaml.cs">
       <DependentUpon>JiraSettingsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings\JiraSettingsStorage.cs" />
     <Compile Include="Worklog.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
