@@ -9,4 +9,5 @@
 * Time tracking
 * Editing settings
 * UX & GUI improvements
+* I18N
 * CI
