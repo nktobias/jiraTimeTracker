@@ -1,58 +1,36 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
+
 namespace Triosoft.JiraTimeTracker.Settings
 {
    public class JiraSettingsStorage
    {
-      private static readonly _settingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "JiraTimeTrackerSettings.xml")
-      private static readonly BinaryFormatter _binaryFormatter = new BinaryFormatter();
-
-
-      [Serializable]
-      private class SerializableJiraSettings
-      {
-         public SerializableJiraSettings(JiraSettings jiraSettings)
-         {
-            BaseUrl = jiraSettings.BaseUrl;
-            UserName = jiraSettings.UserName;
-            Password = jiraSettings.Password;
-         }
-
-         public Uri BaseUrl { get; set; }
-         public string UserName { get; set; }
-         public string Password { get; set; }
-         public byte[] Enthropy { get; set;}
-
-         public JiraSettings ToJiraSettings()
-         {
-            return new JiraSettings(BaseUrl, UserName, Password);
-         }
-      }
+      private static readonly string _settingsFilePath = Path.Combine(
+         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+         "JiraTimeTrackerSettings.xml");
 
       public JiraSettings Get()
       {
-         throw new NotImplementedException();
+         JiraSettings result = null;
+
+         if (File.Exists(_settingsFilePath))
+         {
+            byte[] encryptedBytes = File.ReadAllBytes(_settingsFilePath);
+            BinarySerializer binarySerializer = new BinarySerializer();
+            EncryptedSerializableJiraSettings encryptedSerializableJiraSettings = binarySerializer.Deserialize<EncryptedSerializableJiraSettings>(encryptedBytes);
+            result = encryptedSerializableJiraSettings.Decrypt().ToJiraSettings();
+         }
+
+         return result;
       }
 
       public void Set(JiraSettings jiraSettings)
       {
-         byte[] entropy = new byte[20];
-         using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
-         {
-            rng.GetBytes(entropy);
-         }
+         SerializableJiraSettings serializableJiraSettings = new SerializableJiraSettings(jiraSettings);
+         EncryptedSerializableJiraSettings encryptedSerializableJiraSettings = serializableJiraSettings.Encrypt();
 
-         byte[] serializedSettings;
-         using (MemoryStream serializationStream = new MemoryStream())
-         {
-            _binaryFormatter.Serialize(serializationStream, new SerializableJiraSettings(jiraSettings, entropy));
-            serializedSettings = serializationStream.ToArray();
-         }
-
-         byte[] protectedSerializedSettings = ProtectedData.Protect(serializedSettings, entropy, DataProtectionScope.CurrentUser);
-         File.WriteAllBytes(_settingsFilePath, protectedSerializedSettings);
+         BinarySerializer binarySerializer = new BinarySerializer();
+         File.WriteAllBytes(_settingsFilePath, binarySerializer.Serialize(encryptedSerializableJiraSettings));
       }
    }
 }

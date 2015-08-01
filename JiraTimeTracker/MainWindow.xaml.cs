@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Triosoft.JiraTimeTracker.JiraRestApi;
+using Triosoft.JiraTimeTracker.Settings;
 
 namespace Triosoft.JiraTimeTracker
 {
@@ -17,16 +18,27 @@ namespace Triosoft.JiraTimeTracker
 
       private void HandleWindowLoaded(object sender, RoutedEventArgs e)
       {
-         JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow();
-         jiraSettingsWindow.Owner = this;
-         if (jiraSettingsWindow.ShowDialog() == true)
+         JiraSettings jiraSettings;
+
+         JiraSettingsStorage jiraSettingsStorage = new JiraSettingsStorage();
+         jiraSettings = jiraSettingsStorage.Get();
+
+         if (jiraSettings == null)
          {
-            _jiraClient = new JiraClient(jiraSettingsWindow.ProvidedSettings);
+            JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow();
+            jiraSettingsWindow.Owner = this;
+            if (jiraSettingsWindow.ShowDialog() == true)
+            {
+               jiraSettings = jiraSettingsWindow.ProvidedSettings;
+               jiraSettingsStorage.Set(jiraSettings);
+            }
+            else
+            {
+               Application.Current.Shutdown();
+            }
          }
-         else
-         {
-            Application.Current.Shutdown();
-         }
+
+         _jiraClient = new JiraClient(jiraSettings);
       }
 
       private async void HandleStartTrackingClick(object sender, RoutedEventArgs e)

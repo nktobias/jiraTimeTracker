@@ -61,6 +61,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Settings\BinarySerializer.cs" />
+    <Compile Include="Settings\EncryptedSerializableJiraSettings.cs" />
     <Compile Include="Settings\JiraSettings.cs" />
     <Compile Include="JiraRestApi\JiraDateTimeJsonConverter.cs" />
     <Compile Include="JiraRestApi\NewtonsoftJsonSerializer.cs" />
@@ -70,6 +72,7 @@
       <DependentUpon>JiraSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\JiraSettingsStorage.cs" />
+    <Compile Include="Settings\SerializableJiraSettings.cs" />
     <Compile Include="Worklog.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
