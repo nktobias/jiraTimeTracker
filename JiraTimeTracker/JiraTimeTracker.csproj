@@ -38,6 +38,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
     </Reference>
@@ -61,8 +64,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Settings\BinarySerializer.cs" />
-    <Compile Include="Settings\EncryptedSerializableJiraSettings.cs" />
+    <Compile Include="Settings\DataEncryptor.cs" />
+    <Compile Include="Settings\EncryptedData.cs" />
+    <Compile Include="Settings\EncryptedDataProtobufContract.cs" />
+    <Compile Include="Settings\IProtobufContract.cs" />
+    <Compile Include="Settings\JiraSettingsProtobufContract.cs" />
+    <Compile Include="Settings\ProtobufSerializer.cs" />
     <Compile Include="Settings\JiraSettings.cs" />
     <Compile Include="JiraRestApi\JiraDateTimeJsonConverter.cs" />
     <Compile Include="JiraRestApi\NewtonsoftJsonSerializer.cs" />
@@ -72,7 +79,6 @@
       <DependentUpon>JiraSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\JiraSettingsStorage.cs" />
-    <Compile Include="Settings\SerializableJiraSettings.cs" />
     <Compile Include="Worklog.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +127,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

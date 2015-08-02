@@ -9,6 +9,9 @@ namespace Triosoft.JiraTimeTracker.Settings
          Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
          "JiraTimeTrackerSettings.xml");
 
+      private readonly ProtobufSerializer binarySerializer = new ProtobufSerializer();
+      private readonly DataEncryptor dataEncryptor = new DataEncryptor();
+
       public JiraSettings Get()
       {
          JiraSettings result = null;
@@ -16,9 +19,10 @@ namespace Triosoft.JiraTimeTracker.Settings
          if (File.Exists(_settingsFilePath))
          {
             byte[] encryptedBytes = File.ReadAllBytes(_settingsFilePath);
-            BinarySerializer binarySerializer = new BinarySerializer();
-            EncryptedSerializableJiraSettings encryptedSerializableJiraSettings = binarySerializer.Deserialize<EncryptedSerializableJiraSettings>(encryptedBytes);
-            result = encryptedSerializableJiraSettings.Decrypt().ToJiraSettings();
+            EncryptedData encryptedData = binarySerializer.Deserialize<EncryptedData, EncryptedDataProtobufContract>(encryptedBytes);
+
+            byte[] decryptedData = dataEncryptor.Decrypt(encryptedData);
+            result = binarySerializer.Deserialize<JiraSettings, JiraSettingsProtobufContract>(encryptedBytes);
          }
 
          return result;
@@ -26,11 +30,12 @@ namespace Triosoft.JiraTimeTracker.Settings
 
       public void Set(JiraSettings jiraSettings)
       {
-         SerializableJiraSettings serializableJiraSettings = new SerializableJiraSettings(jiraSettings);
-         EncryptedSerializableJiraSettings encryptedSerializableJiraSettings = serializableJiraSettings.Encrypt();
+         byte[] serializedJiraSettings = binarySerializer.Serialize<JiraSettings, JiraSettingsProtobufContract>(jiraSettings);
+         EncryptedData encryptedJiraSettings = dataEncryptor.Encrypt(serializedJiraSettings);
 
-         BinarySerializer binarySerializer = new BinarySerializer();
-         File.WriteAllBytes(_settingsFilePath, binarySerializer.Serialize(encryptedSerializableJiraSettings));
+         byte[] serializedEncryptedJiraSettings = binarySerializer.Serialize<EncryptedData, EncryptedDataProtobufContract>(encryptedJiraSettings);
+
+         File.WriteAllBytes(_settingsFilePath, serializedEncryptedJiraSettings);
       }
    }
 }
