@@ -7,7 +7,7 @@ namespace Triosoft.JiraTimeTracker.Settings
    public class JiraSettingsProtobufContract : IProtobufContract<JiraSettings>
    {
       [ProtoMember(1)]
-      public string BaseUrl { get; set; }
+      public Uri BaseUrl { get; set; }
       [ProtoMember(2)]
       public string UserName { get; set; }
       [ProtoMember(3)]
@@ -15,14 +15,14 @@ namespace Triosoft.JiraTimeTracker.Settings
 
       public void InitializeFromDataObject(JiraSettings dataObject)
       {
-         BaseUrl = dataObject.BaseUrl.ToString();
+         BaseUrl = dataObject.BaseUrl;
          UserName = dataObject.UserName;
          Password = dataObject.Password;
       }
 
       public JiraSettings ToDataObject()
       {
-         return new JiraSettings(new Uri(BaseUrl), UserName, Password);
+         return new JiraSettings(BaseUrl, UserName, Password);
       }
    }
 }

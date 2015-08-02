@@ -22,7 +22,7 @@ namespace Triosoft.JiraTimeTracker.Settings
             EncryptedData encryptedData = binarySerializer.Deserialize<EncryptedData, EncryptedDataProtobufContract>(encryptedBytes);
 
             byte[] decryptedData = dataEncryptor.Decrypt(encryptedData);
-            result = binarySerializer.Deserialize<JiraSettings, JiraSettingsProtobufContract>(encryptedBytes);
+            result = binarySerializer.Deserialize<JiraSettings, JiraSettingsProtobufContract>(decryptedData);
          }
 
          return result;
