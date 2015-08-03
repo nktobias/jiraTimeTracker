@@ -64,7 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="JiraClientFacade.cs" />
+    <Compile Include="JiraApiClientFacade.cs" />
     <Compile Include="Settings\DataEncryptor.cs" />
     <Compile Include="Settings\EncryptedData.cs" />
     <Compile Include="Settings\EncryptedDataProtobufContract.cs" />
@@ -91,7 +91,7 @@
     </Compile>
     <Compile Include="Issue.cs" />
     <Compile Include="JiraRestApi\DynamicJsonDeserializer.cs" />
-    <Compile Include="JiraRestApi\JiraClient.cs" />
+    <Compile Include="JiraRestApi\JiraApiClient.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

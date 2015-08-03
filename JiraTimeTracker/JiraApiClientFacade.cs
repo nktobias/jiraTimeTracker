@@ -3,28 +3,28 @@ using Triosoft.JiraTimeTracker.Settings;
 
 namespace Triosoft.JiraTimeTracker
 {
-   public class JiraClientFacade
+   public class JiraApiClientFacade
    {
       private readonly JiraSettingsStorage _jiraSettingsStorage = new JiraSettingsStorage();
 
-      public JiraClient TryToGetClientWithPreviouslyProvidedSettings()
+      public JiraApiClient TryToGetClientWithPreviouslyProvidedSettings()
       {
-         JiraClient result = null;
+         JiraApiClient result = null;
 
          JiraSettings jiraSettings = _jiraSettingsStorage.Get();
          if (jiraSettings != null)
          {
-            result = new JiraClient(jiraSettings);
+            result = new JiraApiClient(jiraSettings);
          }
 
          return result;
       }
 
-      public JiraClient GetClientWithNewSettings(JiraSettings jiraSettings)
+      public JiraApiClient GetClientWithNewSettings(JiraSettings jiraSettings)
       {
          _jiraSettingsStorage.Set(jiraSettings);
 
-         JiraClient result = new JiraClient(jiraSettings);
+         JiraApiClient result = new JiraApiClient(jiraSettings);
          return result;
       }
    }

@@ -6,14 +6,14 @@ using Triosoft.JiraTimeTracker.Settings;
 
 namespace Triosoft.JiraTimeTracker.JiraRestApi
 {
-   public class JiraClient 
+   public class JiraApiClient 
    {
       private static NewtonsoftJsonSerializer _newtonsoftJsonSerializer = new NewtonsoftJsonSerializer();
 
       private readonly Uri _baseUrl;
       private readonly RestClient _restClient;
 
-      public JiraClient(JiraSettings jiraSettings)
+      public JiraApiClient(JiraSettings jiraSettings)
       {
          _baseUrl = jiraSettings.BaseUrl;
          _restClient = new RestClient(new Uri(jiraSettings.BaseUrl, "rest/api/2"))

@@ -8,7 +8,7 @@ namespace Triosoft.JiraTimeTracker
 {
    public partial class MainWindow : Window
    {
-      private JiraClient _jiraClient;
+      private JiraApiClient _jiraApiClient;
 
       public MainWindow()
       {
@@ -18,16 +18,16 @@ namespace Triosoft.JiraTimeTracker
 
       private void HandleWindowLoaded(object sender, RoutedEventArgs e)
       {
-         JiraClientFacade jiraClientFacade = new JiraClientFacade();
+         JiraApiClientFacade jiraApiClientFacade = new JiraApiClientFacade();
 
-         _jiraClient = jiraClientFacade.TryToGetClientWithPreviouslyProvidedSettings();
+         _jiraApiClient = jiraApiClientFacade.TryToGetClientWithPreviouslyProvidedSettings();
 
-         if (_jiraClient == null)
+         if (_jiraApiClient == null)
          {
             JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow { Owner = this };
             if (jiraSettingsWindow.ShowDialog() == true)
             {
-               _jiraClient = jiraClientFacade.GetClientWithNewSettings(jiraSettingsWindow.ProvidedSettings);
+               _jiraApiClient = jiraApiClientFacade.GetClientWithNewSettings(jiraSettingsWindow.ProvidedSettings);
             }
             else
             {
@@ -39,7 +39,7 @@ namespace Triosoft.JiraTimeTracker
       private async void HandleStartTrackingClick(object sender, RoutedEventArgs e)
       {
          Issue selectedIssue = GetSelectedIssue();
-         await _jiraClient.LogWork(new Worklog(selectedIssue, DateTime.Now, new TimeSpan(0, 10, 0)));
+         await _jiraApiClient.LogWork(new Worklog(selectedIssue, DateTime.Now, new TimeSpan(0, 10, 0)));
       }
 
       private void HandleStopTrackingClick(object sender, RoutedEventArgs e)
@@ -50,7 +50,7 @@ namespace Triosoft.JiraTimeTracker
       private void HandleGoToIssueClick(object sender, RoutedEventArgs e)
       {
          Issue selectedIssue = GetSelectedIssue();
-         System.Diagnostics.Process.Start(_jiraClient.GetUrlForIssue(selectedIssue).ToString());
+         System.Diagnostics.Process.Start(_jiraApiClient.GetUrlForIssue(selectedIssue).ToString());
       }
 
       private void HandleUploadClick(object sender, RoutedEventArgs e)
@@ -60,7 +60,7 @@ namespace Triosoft.JiraTimeTracker
 
       private async void HandleDownloadClick(object sender, RoutedEventArgs e)
       {
-         _issuesDataGrid.ItemsSource = await _jiraClient.GetIssuesAsync();
+         _issuesDataGrid.ItemsSource = await _jiraApiClient.GetIssuesAsync();
       }
 
       private void HandleIssuesDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
