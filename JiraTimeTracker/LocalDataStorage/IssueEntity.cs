@@ -11,13 +11,13 @@ namespace Triosoft.JiraTimeTracker.LocalDataStorage
       public IssueEntity(Issue issue)
       {
          Key = issue.Key;
-         IssueType = issue.IssueType;
+         Type = issue.Type;
          Summary = issue.Summary;
       }
 
       [PrimaryKey]
       public string Key { get; set; }
-      public string IssueType { get; set; }
+      public string Type { get; set; }
       public string Summary { get; set; }
    }
 }

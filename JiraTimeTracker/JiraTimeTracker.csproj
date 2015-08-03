@@ -71,6 +71,9 @@
     <Reference Include="SQLite.Net.Platform.Win32">
       <HintPath>..\packages\SQLite.Net-PCL.3.0.5\lib\net4\SQLite.Net.Platform.Win32.dll</HintPath>
     </Reference>
+    <Reference Include="SQLiteNetExtensions">
+      <HintPath>..\packages\SQLiteNetExtensions.1.3.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\SQLiteNetExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
@@ -96,9 +99,12 @@
     </ApplicationDefinition>
     <Compile Include="Actions\DownloadIssuesCommand.cs" />
     <Compile Include="Actions\OpenIssueInDefaultBrowserCommand.cs" />
+    <Compile Include="Actions\StartTrackingWorkOnIssueCommand.cs" />
+    <Compile Include="Actions\StopTrackingWorkCommand.cs" />
     <Compile Include="ApplicationStorageFolder.cs" />
     <Compile Include="Actions\GetLocalIssuesQuery.cs" />
     <Compile Include="JiraApiClientFacade.cs" />
+    <Compile Include="LocalDataStorage\WorklogEntity.cs" />
     <Compile Include="LocalDataStorage\IssueEntity.cs" />
     <Compile Include="LocalDataStorage\SqliteDataStorage.cs" />
     <Compile Include="Settings\DataEncryptor.cs" />

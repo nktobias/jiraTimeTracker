@@ -2,20 +2,20 @@
 {
    public class Issue
    {
-      public Issue(string key, string issueType, string summary)
+      public Issue(string key, string type, string summary)
       {
          Key = key;
-         IssueType = issueType;
+         Type = type;
          Summary = summary;
       }
 
       public string Key { get; private set; }
-      public string IssueType { get; private set; }
+      public string Type { get; private set; }
       public string Summary { get; private set; }
 
       public override string ToString()
       {
-         return string.Format("{0} - {1} - {2}", Key, IssueType, Summary);
+         return string.Format("{0} - {1} - {2}", Key, Type, Summary);
       }
    }
 }

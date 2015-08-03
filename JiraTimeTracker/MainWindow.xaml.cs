@@ -3,30 +3,38 @@ using System.Windows;
 using System.Windows.Controls;
 using Triosoft.JiraTimeTracker.Actions;
 using Triosoft.JiraTimeTracker.JiraRestApi;
+using Triosoft.JiraTimeTracker.WorkLogging;
 
 namespace Triosoft.JiraTimeTracker
 {
    public partial class MainWindow
    {
+      private readonly WorkQueue _workQueue = new WorkQueue();
       private readonly JiraApiClientFacade _jiraApiClientFacade = new JiraApiClientFacade();
 
       public MainWindow()
       {
          InitializeComponent();
-         SetAvailabilityOfIssueRelatedButtons(false);
       }
 
       private void HandleWindowLoaded(object sender, RoutedEventArgs e)
       {
+         SetAvailabilityOfIssueRelatedButtons(false);
+         _stopTrackingButton.IsEnabled = false;
          RefreshIssuesDataGrid();
       }      
 
       private void HandleStartTrackingClick(object sender, RoutedEventArgs e)
       {
+         new StopTrackingWorkCommand(_workQueue).Execute();
+         new StartTrackingWorkOnIssueCommand(GetSelectedIssue(), _workQueue).Execute();
+         _stopTrackingButton.IsEnabled = true;
       }
 
       private void HandleStopTrackingClick(object sender, RoutedEventArgs e)
-      {  
+      {
+         new StopTrackingWorkCommand(_workQueue).Execute();
+         _stopTrackingButton.IsEnabled = false;
       }
 
       private void HandleGoToIssueClick(object sender, RoutedEventArgs e)
@@ -56,7 +64,7 @@ namespace Triosoft.JiraTimeTracker
       private void SetAvailabilityOfIssueRelatedButtons(bool enabled)
       {
          _startTrackingButton.IsEnabled = enabled;
-         _stopTrackingButton.IsEnabled = enabled;
+         _gotToIssueButton.IsEnabled = enabled;
       }
 
       private void RefreshIssuesDataGrid()
