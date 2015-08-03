@@ -69,7 +69,6 @@
     <Compile Include="Settings\EncryptedDataProtobufContract.cs" />
     <Compile Include="Settings\IProtobufContract.cs" />
     <Compile Include="Settings\JiraSettingsProtobufContract.cs" />
-    <Compile Include="Settings\ProtobufSerializer.cs" />
     <Compile Include="Settings\JiraSettings.cs" />
     <Compile Include="JiraRestApi\JiraDateTimeJsonConverter.cs" />
     <Compile Include="JiraRestApi\NewtonsoftJsonSerializer.cs" />
@@ -79,6 +78,7 @@
       <DependentUpon>JiraSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\JiraSettingsStorage.cs" />
+    <Compile Include="Settings\ProtobufSerializer.cs" />
     <Compile Include="Worklog.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -127,9 +127,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
