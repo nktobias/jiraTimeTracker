@@ -10,7 +10,7 @@
 * Uploading worklogs to JIRA
 *  ~~Open issue in browser~~
 * Caching downloaded issues in local database
-* Editing settings
+* Editing settings (delete all local stuff when site or username is changed)
 
 ### Backlog
 
