@@ -1,28 +1,24 @@
-﻿using System;
-using System.IO;
-
-namespace Triosoft.JiraTimeTracker.Settings
+﻿namespace Triosoft.JiraTimeTracker.Settings
 {
    public class JiraSettingsStorage
    {
-      private static readonly string _settingsFilePath = Path.Combine(
-         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
-         "JiraTimeTrackerSettings.xml");
+      private const string JiraSettingsFileName = "JiraSettings.xml";
 
-      private readonly ProtobufSerializer binarySerializer = new ProtobufSerializer();
-      private readonly DataEncryptor dataEncryptor = new DataEncryptor();
+      private readonly ApplicationStorageFolder _applicationStorageFolder = new ApplicationStorageFolder();
+      private readonly ProtobufSerializer _binarySerializer = new ProtobufSerializer();
+      private readonly DataEncryptor _dataEncryptor = new DataEncryptor();
 
       public JiraSettings Get()
       {
          JiraSettings result = null;
 
-         if (File.Exists(_settingsFilePath))
+         if (_applicationStorageFolder.FileExists(JiraSettingsFileName))
          {
-            byte[] encryptedBytes = File.ReadAllBytes(_settingsFilePath);
-            EncryptedData encryptedData = binarySerializer.Deserialize<EncryptedData, EncryptedDataProtobufContract>(encryptedBytes);
+            byte[] encryptedBytes = _applicationStorageFolder.GetBytes(JiraSettingsFileName);
+            EncryptedData encryptedData = _binarySerializer.Deserialize<EncryptedData, EncryptedDataProtobufContract>(encryptedBytes);
 
-            byte[] decryptedData = dataEncryptor.Decrypt(encryptedData);
-            result = binarySerializer.Deserialize<JiraSettings, JiraSettingsProtobufContract>(decryptedData);
+            byte[] decryptedData = _dataEncryptor.Decrypt(encryptedData);
+            result = _binarySerializer.Deserialize<JiraSettings, JiraSettingsProtobufContract>(decryptedData);
          }
 
          return result;
@@ -30,12 +26,12 @@ namespace Triosoft.JiraTimeTracker.Settings
 
       public void Set(JiraSettings jiraSettings)
       {
-         byte[] serializedJiraSettings = binarySerializer.Serialize<JiraSettings, JiraSettingsProtobufContract>(jiraSettings);
-         EncryptedData encryptedJiraSettings = dataEncryptor.Encrypt(serializedJiraSettings);
+         byte[] serializedJiraSettings = _binarySerializer.Serialize<JiraSettings, JiraSettingsProtobufContract>(jiraSettings);
+         EncryptedData encryptedJiraSettings = _dataEncryptor.Encrypt(serializedJiraSettings);
 
-         byte[] serializedEncryptedJiraSettings = binarySerializer.Serialize<EncryptedData, EncryptedDataProtobufContract>(encryptedJiraSettings);
+         byte[] serializedEncryptedJiraSettings = _binarySerializer.Serialize<EncryptedData, EncryptedDataProtobufContract>(encryptedJiraSettings);
 
-         File.WriteAllBytes(_settingsFilePath, serializedEncryptedJiraSettings);
+         _applicationStorageFolder.StoreBytes(JiraSettingsFileName, serializedEncryptedJiraSettings);
       }
    }
 }
