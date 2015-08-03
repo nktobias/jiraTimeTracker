@@ -13,6 +13,10 @@
 
 ### Sprint 2
 
+* CI
+
+### Sprint 3
+
 * Editing settings (delete all local stuff when site or username is changed)
 * Issues that have orphaned worklogs (i.e. those for closed issues) should not be deleted from local database after download. Instead, they should still be displayed in issue list in GUI (with red background).
 
@@ -20,4 +24,3 @@
 
 * UX & GUI improvements
 * I18N
-* CI
