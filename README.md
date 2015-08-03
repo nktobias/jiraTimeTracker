@@ -1,6 +1,6 @@
 # jiraTimeTracker
 
-### Release 1
+### Sprint 1
 
 * ~~Basic UI~~
 * ~~Wrapping Jira REST API calls~~
@@ -10,8 +10,11 @@
 * Uploading worklogs to JIRA
 *  ~~Open issue in browser~~
 * ~~Caching downloaded issues in local database~~
+
+### Sprint 2
+
 * Editing settings (delete all local stuff when site or username is changed)
-* Issues that have orphaned worklogs (that are related to closed issues) should not be deleted from local database, but should still be displayed in issue list in GUI (with red background)
+* Issues that have orphaned worklogs (i.e. those for closed issues) should not be deleted from local database after download. Instead, they should still be displayed in issue list in GUI (with red background).
 
 ### Backlog
 
