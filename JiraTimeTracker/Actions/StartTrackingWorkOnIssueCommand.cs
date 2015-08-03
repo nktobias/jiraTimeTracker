@@ -15,6 +15,7 @@ namespace Triosoft.JiraTimeTracker.Actions
 
       public void Execute()
       {
+         new StopTrackingWorkCommand(_workQueue).Execute();
          _workQueue.StartWorkOn(_issue);
       }
    }

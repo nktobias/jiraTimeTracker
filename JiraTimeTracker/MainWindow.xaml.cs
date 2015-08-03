@@ -26,7 +26,6 @@ namespace Triosoft.JiraTimeTracker
 
       private void HandleStartTrackingClick(object sender, RoutedEventArgs e)
       {
-         new StopTrackingWorkCommand(_workQueue).Execute();
          new StartTrackingWorkOnIssueCommand(GetSelectedIssue(), _workQueue).Execute();
          _stopTrackingButton.IsEnabled = true;
       }
