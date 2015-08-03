@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
 using Triosoft.JiraTimeTracker.Settings;
+using Triosoft.JiraTimeTracker.WorkLogging;
 
 namespace Triosoft.JiraTimeTracker.JiraRestApi
 {

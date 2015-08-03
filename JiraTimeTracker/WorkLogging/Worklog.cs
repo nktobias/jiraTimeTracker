@@ -1,6 +1,6 @@
 using System;
 
-namespace Triosoft.JiraTimeTracker
+namespace Triosoft.JiraTimeTracker.WorkLogging
 {
    public class Worklog
    {
