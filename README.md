@@ -17,6 +17,7 @@
 
 ### Sprint 3
 
+* Executing all queries and commands via command executor and command interceptors
 * Editing settings (delete all local stuff when site or username is changed)
 * Issues that have orphaned worklogs (i.e. those for closed issues) should not be deleted from local database after download. Instead, they should still be displayed in issue list in GUI (with red background).
 
