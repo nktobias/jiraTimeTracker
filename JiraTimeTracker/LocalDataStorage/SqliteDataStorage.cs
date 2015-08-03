@@ -25,7 +25,7 @@ namespace Triosoft.JiraTimeTracker.LocalDataStorage
 
       public IEnumerable<Issue> GetIssues()
       {
-         return _connection.Table<IssueEntity>().Select(x => new Issue(x.Key, x.IssueType, x.Summary));
+         return _connection.Table<IssueEntity>().Select(x => new Issue(x.Key, x.IssueType, x.Summary)).ToList();
       }
 
       public void SetIssues(IEnumerable<Issue> issues)
