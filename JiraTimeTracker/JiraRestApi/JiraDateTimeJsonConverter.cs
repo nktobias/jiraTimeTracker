@@ -27,14 +27,14 @@ namespace Triosoft.JiraTimeTracker.JiraRestApi
          }
       }
 
-      public override bool CanConvert(System.Type objectType)
+      public override bool CanConvert(Type objectType)
       {
          return objectType == typeof(DateTime);
       }
 
-      public override object ReadJson(JsonReader reader, System.Type objectType, object existingValue, JsonSerializer serializer)
+      public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
       {
-         throw new System.NotImplementedException();
+         throw new NotImplementedException();
       }
 
       public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

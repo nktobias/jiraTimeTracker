@@ -8,7 +8,7 @@ namespace Triosoft.JiraTimeTracker.JiraRestApi
 {
    public class JiraApiClient 
    {
-      private static NewtonsoftJsonSerializer _newtonsoftJsonSerializer = new NewtonsoftJsonSerializer();
+      private static readonly NewtonsoftJsonSerializer _newtonsoftJsonSerializer = new NewtonsoftJsonSerializer();
 
       private readonly Uri _baseUrl;
       private readonly RestClient _restClient;
