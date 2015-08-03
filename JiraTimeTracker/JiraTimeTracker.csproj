@@ -74,7 +74,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Actions\DownloadIssuessCommand.cs" />
     <Compile Include="ApplicationStorageFolder.cs" />
+    <Compile Include="Actions\GetLocalIssuesQuery.cs" />
     <Compile Include="JiraApiClientFacade.cs" />
     <Compile Include="LocalDataStorage\IssueEntity.cs" />
     <Compile Include="LocalDataStorage\SqliteDataStorage.cs" />
