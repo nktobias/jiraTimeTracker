@@ -18,27 +18,22 @@ namespace Triosoft.JiraTimeTracker
 
       private void HandleWindowLoaded(object sender, RoutedEventArgs e)
       {
-         JiraSettings jiraSettings;
+         JiraClientFacade jiraClientFacade = new JiraClientFacade();
 
-         JiraSettingsStorage jiraSettingsStorage = new JiraSettingsStorage();
-         jiraSettings = jiraSettingsStorage.Get();
+         _jiraClient = jiraClientFacade.TryToGetClientWithPreviouslyProvidedSettings();
 
-         if (jiraSettings == null)
+         if (_jiraClient == null)
          {
-            JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow();
-            jiraSettingsWindow.Owner = this;
+            JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow { Owner = this };
             if (jiraSettingsWindow.ShowDialog() == true)
             {
-               jiraSettings = jiraSettingsWindow.ProvidedSettings;
-               jiraSettingsStorage.Set(jiraSettings);
+               _jiraClient = jiraClientFacade.GetClientWithNewSettings(jiraSettingsWindow.ProvidedSettings);
             }
             else
             {
                Application.Current.Shutdown();
             }
          }
-
-         _jiraClient = new JiraClient(jiraSettings);
       }
 
       private async void HandleStartTrackingClick(object sender, RoutedEventArgs e)

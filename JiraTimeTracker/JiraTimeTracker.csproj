@@ -64,6 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="JiraClientFacade.cs" />
     <Compile Include="Settings\DataEncryptor.cs" />
     <Compile Include="Settings\EncryptedData.cs" />
     <Compile Include="Settings\EncryptedDataProtobufContract.cs" />
