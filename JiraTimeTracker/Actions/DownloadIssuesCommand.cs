@@ -5,12 +5,12 @@ using Triosoft.JiraTimeTracker.LocalDataStorage;
 
 namespace Triosoft.JiraTimeTracker.Actions
 {
-   public class DownloadIssuessCommand
+   public class DownloadIssuesCommand
    {
       private readonly JiraApiClient _jiraApiClient;
       private readonly SqliteDataStorage _sqliteDataStorage = new SqliteDataStorage();
 
-      public DownloadIssuessCommand(JiraApiClient jiraApiClient)
+      public DownloadIssuesCommand(JiraApiClient jiraApiClient)
       {
          _jiraApiClient = jiraApiClient;
       }

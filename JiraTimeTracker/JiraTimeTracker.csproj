@@ -79,7 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Actions\DownloadIssuessCommand.cs" />
+    <Compile Include="Actions\DownloadIssuesCommand.cs" />
     <Compile Include="Actions\OpenIssueInDefaultBrowserCommand.cs" />
     <Compile Include="ApplicationStorageFolder.cs" />
     <Compile Include="Actions\GetLocalIssuesQuery.cs" />

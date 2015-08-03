@@ -43,7 +43,7 @@ namespace Triosoft.JiraTimeTracker
       {
          InvokeJiraApiClientDependentAction(async c =>
          {
-            await new DownloadIssuessCommand(c).ExecuteAsync();
+            await new DownloadIssuesCommand(c).ExecuteAsync();
             RefreshIssuesDataGrid();
          });
       }
