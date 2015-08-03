@@ -11,6 +11,7 @@
 *  ~~Open issue in browser~~
 * Caching downloaded issues in local database
 * Editing settings (delete all local stuff when site or username is changed)
+* Issues that have orphaned worklogs (that are related to closed issues) should not be deleted from local database, but should still be displayed in issue list in GUI (with red background)
 
 ### Backlog
 
