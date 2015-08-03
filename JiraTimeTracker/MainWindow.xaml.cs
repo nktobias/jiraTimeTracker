@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Triosoft.JiraTimeTracker.Actions;
 using Triosoft.JiraTimeTracker.JiraRestApi;
-using Triosoft.JiraTimeTracker.Settings;
 
 namespace Triosoft.JiraTimeTracker
 {
-   public partial class MainWindow : Window
+   public partial class MainWindow
    {
-      private JiraApiClient _jiraApiClient;
+      private readonly JiraApiClientFacade _jiraApiClientFacade = new JiraApiClientFacade();
 
       public MainWindow()
       {
@@ -18,39 +18,20 @@ namespace Triosoft.JiraTimeTracker
 
       private void HandleWindowLoaded(object sender, RoutedEventArgs e)
       {
-         JiraApiClientFacade jiraApiClientFacade = new JiraApiClientFacade();
+         RefreshIssuesDataGrid();
+      }      
 
-         _jiraApiClient = jiraApiClientFacade.TryToGetClientWithPreviouslyProvidedSettings();
-
-         if (_jiraApiClient == null)
-         {
-            JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow { Owner = this };
-            if (jiraSettingsWindow.ShowDialog() == true)
-            {
-               _jiraApiClient = jiraApiClientFacade.GetClientWithNewSettings(jiraSettingsWindow.ProvidedSettings);
-            }
-            else
-            {
-               Application.Current.Shutdown();
-            }
-         }
-      }
-
-      private async void HandleStartTrackingClick(object sender, RoutedEventArgs e)
+      private void HandleStartTrackingClick(object sender, RoutedEventArgs e)
       {
-         Issue selectedIssue = GetSelectedIssue();
-         await _jiraApiClient.LogWork(new Worklog(selectedIssue, DateTime.Now, new TimeSpan(0, 10, 0)));
       }
 
       private void HandleStopTrackingClick(object sender, RoutedEventArgs e)
-      {
-         
+      {  
       }
 
       private void HandleGoToIssueClick(object sender, RoutedEventArgs e)
       {
-         Issue selectedIssue = GetSelectedIssue();
-         System.Diagnostics.Process.Start(_jiraApiClient.GetUrlForIssue(selectedIssue).ToString());
+         InvokeJiraApiClientDependentAction(c => new OpenIssueInDefaultBrowserCommand(GetSelectedIssue(), c).Execute());
       }
 
       private void HandleUploadClick(object sender, RoutedEventArgs e)
@@ -58,9 +39,13 @@ namespace Triosoft.JiraTimeTracker
          
       }
 
-      private async void HandleDownloadClick(object sender, RoutedEventArgs e)
+      private void HandleDownloadClick(object sender, RoutedEventArgs e)
       {
-         _issuesDataGrid.ItemsSource = await _jiraApiClient.GetIssuesAsync();
+         InvokeJiraApiClientDependentAction(async c =>
+         {
+            await new DownloadIssuessCommand(c).ExecuteAsync();
+            RefreshIssuesDataGrid();
+         });
       }
 
       private void HandleIssuesDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -74,9 +59,33 @@ namespace Triosoft.JiraTimeTracker
          _stopTrackingButton.IsEnabled = enabled;
       }
 
+      private void RefreshIssuesDataGrid()
+      {
+         _issuesDataGrid.ItemsSource = new GetLocalIssuesQuery().Execute();
+      }
+
       private Issue GetSelectedIssue()
       {
          return (Issue)_issuesDataGrid.SelectedItem;
+      }
+
+      private void InvokeJiraApiClientDependentAction(Action<JiraApiClient> action)
+      {
+         JiraApiClient client = _jiraApiClientFacade.TryToGetClientWithPreviouslyProvidedSettings();
+
+         if (client == null)
+         {
+            JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow { Owner = this };
+            if (jiraSettingsWindow.ShowDialog() == true)
+            {
+               client = _jiraApiClientFacade.GetClientWithNewSettings(jiraSettingsWindow.ProvidedSettings);
+            }
+         }
+
+         if (client != null)
+         {
+            action(client);
+         }
       }
    }
 }

@@ -32,7 +32,7 @@ namespace Triosoft.JiraTimeTracker.LocalDataStorage
       {
          _connection.BeginTransaction();
          _connection.DeleteAll<IssueEntity>();
-         _connection.InsertAll(issues);
+         _connection.InsertAll(issues.Select(x => new IssueEntity(x)));
          _connection.Commit();
       }
    }
