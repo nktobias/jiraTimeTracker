@@ -1,11 +1,10 @@
-﻿using SQLite.Net.Attributes;
-
-namespace Triosoft.JiraTimeTracker.LocalDataStorage
+﻿namespace Triosoft.JiraTimeTracker.LocalDataStorage
 {
    public class IssueEntity
    {
       public IssueEntity()
       {
+         
       }
 
       public IssueEntity(Issue issue)
@@ -15,9 +14,14 @@ namespace Triosoft.JiraTimeTracker.LocalDataStorage
          Summary = issue.Summary;
       }
 
-      [PrimaryKey]
+      
       public string Key { get; set; }
       public string Type { get; set; }
       public string Summary { get; set; }
+
+      public Issue ToIssue()
+      {
+         return new Issue(Key, Type, Summary);
+      }
    }
 }

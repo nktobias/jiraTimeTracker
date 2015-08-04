@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using SQLite.Net;
-using SQLite.Net.Platform.Win32;
-using SQLiteNetExtensions.Extensions;
+using System.Data.SQLite;
 using Triosoft.JiraTimeTracker.WorkLogging;
 
 namespace Triosoft.JiraTimeTracker.LocalDataStorage
@@ -18,30 +15,35 @@ namespace Triosoft.JiraTimeTracker.LocalDataStorage
       {
          bool createTables = !_applicationStorageFolder.FileExists(DatabaseFileName);
 
-         _connection = new SQLiteConnection(new SQLitePlatformWin32(), ApplicationStorageFolder.GetPathToFileInDirectory(DatabaseFileName));
+         _connection = new SQLiteConnection(string.Format("Data Source={0};Version=3", ApplicationStorageFolder.GetPathToFileInDirectory(DatabaseFileName)));
          if (createTables)
          {
-            _connection.CreateTable<IssueEntity>();
-            _connection.CreateTable<WorklogEntity>();
+            using (SQLiteCommand command = _connection.CreateCommand())
+            {
+               command.CommandText = "CREATE TABLE Issue(Key TEXT PRIMARY KEY NOT NULL, Type TEXT NOT NULL, Summary TEXT NOT NULL)";
+               command.ExecuteNonQuery();
+            }
          }
       }
 
       public IEnumerable<Issue> GetIssues()
       {
-         return _connection.Table<IssueEntity>().Select(x => new Issue(x.Key, x.Type, x.Summary)).ToList();
+         return null;
       }
 
       public void SetIssues(IEnumerable<Issue> issues)
       {
-         _connection.BeginTransaction();
-         _connection.DeleteAll<IssueEntity>();
-         _connection.InsertAll(issues.Select(x => new IssueEntity(x)));
-         _connection.Commit();
+         
       }
 
       public void AddWorklog(Worklog worklog)
       {
-         _connection.InsertWithChildren(new WorklogEntity(worklog));
+         
+      }
+
+      public IEnumerable<Worklog> GetWorklogs()
+      {
+         return null;
       }
    }
 }

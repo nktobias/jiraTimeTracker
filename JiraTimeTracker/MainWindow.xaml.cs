@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Triosoft.JiraTimeTracker.Actions;
+using Triosoft.JiraTimeTracker.Events;
 using Triosoft.JiraTimeTracker.JiraRestApi;
 using Triosoft.JiraTimeTracker.WorkLogging;
 
@@ -10,6 +12,8 @@ namespace Triosoft.JiraTimeTracker
    public partial class MainWindow
    {
       private readonly WorkQueue _workQueue = new WorkQueue();
+      private readonly EventAggregator _eventAggregator = new EventAggregator();
+
       private readonly JiraApiClientFacade _jiraApiClientFacade = new JiraApiClientFacade();
 
       public MainWindow()
@@ -22,7 +26,8 @@ namespace Triosoft.JiraTimeTracker
          SetAvailabilityOfIssueRelatedButtons(false);
          _stopTrackingButton.IsEnabled = false;
          RefreshIssuesDataGrid();
-      }      
+         RefreshNotUploadedWorklogsStatus();
+      }
 
       private void HandleStartTrackingClick(object sender, RoutedEventArgs e)
       {
@@ -69,6 +74,13 @@ namespace Triosoft.JiraTimeTracker
       private void RefreshIssuesDataGrid()
       {
          _issuesDataGrid.ItemsSource = new GetLocalIssuesQuery().Execute();
+      }
+
+      private void RefreshNotUploadedWorklogsStatus()
+      {
+         _notUploadedWorklogsStatusText.Text = string.Format(
+            "Pending worklogs: {0}",
+            new GetNotUploadedWorklogsQuery().Execute().Count());
       }
 
       private Issue GetSelectedIssue()
