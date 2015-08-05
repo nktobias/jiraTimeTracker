@@ -1,6 +1,6 @@
 # jiraTimeTracker
 
-### Sprint 1
+### ~~Sprint 1~~
 
 * ~~Basic UI~~
 * ~~Wrapping Jira REST API calls~~
@@ -8,9 +8,10 @@
 * ~~Secure storing of settings (http://stackoverflow.com/questions/12657792/how-to-securely-save-username-password-local)~~
 * ~~Tracking work and storing work logs to local database~~
 * ~~Displaying number of locally stored work logs~~
-* Uploading worklogs to JIRA
-*  ~~Open issue in browser~~
+* ~~Uploading worklogs to JIRA~~
+* ~~Open issue in browser~~
 * ~~Caching downloaded issues in local database~~
+* Executing all queries and commands via command executor and command interceptors
 
 ### Sprint 2
 
@@ -18,8 +19,8 @@
 
 ### Sprint 3
 
+* Displaying estimates for each issue
 * Tracking icon in tray
-* Executing all queries and commands via command executor and command interceptors
 * Editing settings (delete all local stuff when site or username is changed)
 * Issues that have orphaned worklogs (i.e. those for closed issues) should not be deleted from local database after download. Instead, they should still be displayed in issue list in GUI (with red background).
 
