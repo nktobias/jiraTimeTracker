@@ -21,7 +21,8 @@
 
 ### Sprint 3
 
-* Executing all queries and commands via command executor and command interceptors
+* EventAggregator with weak references
+* Executing all queries and commands via command executor and command interceptors (e.g. for common error handling)
 * Displaying estimates for each issue
 * Tracking icon in tray
 * Editing settings (delete all local stuff when site or username is changed)
