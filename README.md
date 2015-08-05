@@ -14,13 +14,6 @@
 
 ### Sprint 2
 
-* ~~CI Build without artifacts~~
-* CI Build with Click-Once artifact
-* CI BUild with versioning of Click-Once artifact
-* CI Deployment of Click-Once artifact to server
-
-### Sprint 3
-
 * EventAggregator with weak references
 * Executing all queries and commands via command executor and command interceptors (e.g. for common error handling)
 * Displaying estimates for each issue
