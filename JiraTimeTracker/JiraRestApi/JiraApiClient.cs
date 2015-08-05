@@ -49,16 +49,19 @@ namespace Triosoft.JiraTimeTracker.JiraRestApi
 
       public async Task LogWork(Worklog worklog)
       {
-         RestRequest restRequest = CreateRequest("issue/" + worklog.Issue.Key + "/worklog", Method.POST);
-         var worklogJson = new
+         if (worklog.IsAtLeast(TimeSpan.FromMinutes(1)))
          {
-            started = worklog.Start,
-            timeSpentSeconds = worklog.DurationInSeconds
-         };
-         restRequest.AddJsonBody(worklogJson);
+            RestRequest restRequest = CreateRequest("issue/" + worklog.Issue.Key + "/worklog", Method.POST);
+            var worklogJson = new
+            {
+               started = worklog.Start,
+               timeSpentSeconds = worklog.DurationInSeconds
+            };
+            restRequest.AddJsonBody(worklogJson);
 
-         IRestResponse response = await _restClient.ExecuteTaskAsync(restRequest);
-         response.EnsureSuccessStatusCode();
+            IRestResponse response = await _restClient.ExecuteTaskAsync(restRequest);
+            response.EnsureSuccessStatusCode();
+         }
       }
 
       private static RestRequest CreateRequest(string resource, Method method)

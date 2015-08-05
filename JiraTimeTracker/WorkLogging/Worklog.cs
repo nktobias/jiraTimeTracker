@@ -28,6 +28,11 @@ namespace Triosoft.JiraTimeTracker.WorkLogging
       public DateTime Start { get; private set; }
       public TimeSpan Duration { get; private set; }
 
+      public bool IsAtLeast(TimeSpan timespan)
+      {
+         return Duration >= timespan;
+      }
+
       public long DurationInSeconds
       {
          get

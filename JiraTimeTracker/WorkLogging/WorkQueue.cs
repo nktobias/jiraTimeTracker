@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Triosoft.JiraTimeTracker.WorkLogging
 {
@@ -17,7 +18,12 @@ namespace Triosoft.JiraTimeTracker.WorkLogging
       {
          if (_currentWork != null)
          {
-            _worklogsQueue.Enqueue(_currentWork.FinishWork());
+            Worklog finishedWork = _currentWork.FinishWork();
+
+            if (finishedWork.IsAtLeast(TimeSpan.FromMinutes(2)))
+            {
+               _worklogsQueue.Enqueue(finishedWork);
+            }
             _currentWork = null;
          }
       }
