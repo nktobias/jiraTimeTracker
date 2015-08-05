@@ -14,9 +14,7 @@
 
 ### Sprint 2
 
-http://stackoverflow.com/questions/8681497/how-do-i-integrate-nuget-into-my-bamboo-build-plan?lq=1
-
-* CI Build without artifacts
+* ~~CI Build without artifacts~~
 * CI Build with Click-Once artifact
 * CI BUild with versioning of Click-Once artifact
 * CI Deployment of Click-Once artifact to server
