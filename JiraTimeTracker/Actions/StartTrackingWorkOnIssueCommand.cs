@@ -1,4 +1,5 @@
-﻿using Triosoft.JiraTimeTracker.WorkLogging;
+﻿using Triosoft.JiraTimeTracker.Events;
+using Triosoft.JiraTimeTracker.WorkLogging;
 
 namespace Triosoft.JiraTimeTracker.Actions
 {
@@ -6,16 +7,18 @@ namespace Triosoft.JiraTimeTracker.Actions
    {
       private readonly Issue _issue;
       private readonly WorkQueue _workQueue;
+      private readonly EventAggregator _eventAggregator;
 
-      public StartTrackingWorkOnIssueCommand(Issue issue, WorkQueue workQueue)
+      public StartTrackingWorkOnIssueCommand(Issue issue, WorkQueue workQueue, EventAggregator eventAggregator)
       {
          _issue = issue;
          _workQueue = workQueue;
+         _eventAggregator = eventAggregator;
       }
 
       public void Execute()
       {
-         new StopTrackingWorkCommand(_workQueue).Execute();
+         new StopTrackingWorkCommand(_workQueue, _eventAggregator).Execute();
          _workQueue.StartWorkOn(_issue);
       }
    }

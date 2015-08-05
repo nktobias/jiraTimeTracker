@@ -5,7 +5,7 @@ namespace Triosoft.JiraTimeTracker.Events
 {
    public class EventAggregator
    {
-      private readonly Dictionary<Type, List<WeakReference>> _listeners = new Dictionary<Type, List<WeakReference>>();
+      private readonly Dictionary<Type, List<Delegate>> _listeners = new Dictionary<Type, List<Delegate>>();
 
       public void Subscribe<T>(Action<T> handler)
       {
@@ -13,11 +13,11 @@ namespace Triosoft.JiraTimeTracker.Events
 
          if (!_listeners.ContainsKey(eventType))
          {
-            _listeners.Add(eventType, new List<WeakReference>());
+            _listeners.Add(eventType, new List<Delegate>());
          }
 
-         List<WeakReference> eventListeners = _listeners[eventType];
-         eventListeners.Add(new WeakReference(handler));
+         List<Delegate> eventListeners = _listeners[eventType];
+         eventListeners.Add(handler);
       }
 
       public void Raise<T>(T args)
@@ -26,12 +26,9 @@ namespace Triosoft.JiraTimeTracker.Events
 
          if (_listeners.ContainsKey(eventType))
          {
-            foreach (WeakReference handlerWeakReference in _listeners[eventType])
+            foreach (Delegate handler in _listeners[eventType])
             {
-               if (handlerWeakReference.Target != null)
-               {
-                  ((Action<T>)handlerWeakReference.Target)(args);
-               }
+               ((Action<T>)handler)(args);
             }
          }
       }

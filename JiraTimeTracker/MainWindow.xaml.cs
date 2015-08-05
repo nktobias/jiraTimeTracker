@@ -19,6 +19,7 @@ namespace Triosoft.JiraTimeTracker
       public MainWindow()
       {
          InitializeComponent();
+         _eventAggregator.Subscribe<WorkLoggedEventArgs>(x => RefreshNotUploadedWorklogsStatus());
       }
 
       private void HandleWindowLoaded(object sender, RoutedEventArgs e)
@@ -31,13 +32,13 @@ namespace Triosoft.JiraTimeTracker
 
       private void HandleStartTrackingClick(object sender, RoutedEventArgs e)
       {
-         new StartTrackingWorkOnIssueCommand(GetSelectedIssue(), _workQueue).Execute();
+         new StartTrackingWorkOnIssueCommand(GetSelectedIssue(), _workQueue, _eventAggregator).Execute();
          _stopTrackingButton.IsEnabled = true;
       }
 
       private void HandleStopTrackingClick(object sender, RoutedEventArgs e)
       {
-         new StopTrackingWorkCommand(_workQueue).Execute();
+         new StopTrackingWorkCommand(_workQueue, _eventAggregator).Execute();
          _stopTrackingButton.IsEnabled = false;
       }
 
