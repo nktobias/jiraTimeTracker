@@ -14,7 +14,10 @@
 
 ### Sprint 2
 
-* CI
+* CI Build without artifacts
+* CI Build with Click-Once artifact
+* CI BUild with versioning of Click-Once artifact
+* CI Deployment of Click-Once artifact to server
 
 ### Sprint 3
 
