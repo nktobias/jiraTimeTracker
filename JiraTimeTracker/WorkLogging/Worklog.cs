@@ -9,12 +9,12 @@ namespace Triosoft.JiraTimeTracker.WorkLogging
       {
       }
 
-      public Worklog(int id, Issue issue, DateTime start, TimeSpan duration)
-         : this((int?)id, issue, start, duration)
+      public Worklog(long id, Issue issue, DateTime start, TimeSpan duration)
+         : this((long?)id, issue, start, duration)
       {
       }
 
-      private Worklog(int? id, Issue issue, DateTime start, TimeSpan duration)
+      private Worklog(long? id, Issue issue, DateTime start, TimeSpan duration)
       {
          Id = id;
          Issue = issue;
@@ -22,7 +22,7 @@ namespace Triosoft.JiraTimeTracker.WorkLogging
          Duration = duration;
       }
 
-      public int? Id { get; private set; }
+      public long? Id { get; private set; }
 
       public Issue Issue { get; private set; }
       public DateTime Start { get; private set; }

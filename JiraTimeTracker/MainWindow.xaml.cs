@@ -16,10 +16,21 @@ namespace Triosoft.JiraTimeTracker
 
       private readonly JiraApiClientFacade _jiraApiClientFacade = new JiraApiClientFacade();
 
+      private int _numberOfNotUploadedWorklogs;
+
       public MainWindow()
       {
          InitializeComponent();
-         _eventAggregator.Subscribe<WorkLoggedEventArgs>(x => RefreshNotUploadedWorklogsStatus());
+         _eventAggregator.Subscribe<WorkLoggedEventArgs>(x =>
+         {
+            _numberOfNotUploadedWorklogs++;
+            RefreshNotUploadedWorklogsStatus(); 
+         });
+         _eventAggregator.Subscribe<WorklogUploadedEventArgs>(x =>
+         {
+            _numberOfNotUploadedWorklogs--;
+            RefreshNotUploadedWorklogsStatus();
+         });
       }
 
       private void HandleWindowLoaded(object sender, RoutedEventArgs e)
@@ -27,6 +38,7 @@ namespace Triosoft.JiraTimeTracker
          SetAvailabilityOfIssueRelatedButtons(false);
          _stopTrackingButton.IsEnabled = false;
          RefreshIssuesDataGrid();
+         _numberOfNotUploadedWorklogs = new GetNotUploadedWorklogsQuery().Execute().Count();
          RefreshNotUploadedWorklogsStatus();
       }
 
@@ -49,7 +61,10 @@ namespace Triosoft.JiraTimeTracker
 
       private void HandleUploadClick(object sender, RoutedEventArgs e)
       {
-         
+         InvokeJiraApiClientDependentAction(async c =>
+         {
+            await new UploadIssuesCommand(c, _eventAggregator).ExecuteAsync();
+         });
       }
 
       private void HandleDownloadClick(object sender, RoutedEventArgs e)
@@ -79,9 +94,7 @@ namespace Triosoft.JiraTimeTracker
 
       private void RefreshNotUploadedWorklogsStatus()
       {
-         _notUploadedWorklogsStatusText.Text = string.Format(
-            "Pending worklogs: {0}",
-            new GetNotUploadedWorklogsQuery().Execute().Count());
+         _notUploadedWorklogsStatusText.Text = string.Format("Pending worklogs: {0}", _numberOfNotUploadedWorklogs);
       }
 
       private Issue GetSelectedIssue()

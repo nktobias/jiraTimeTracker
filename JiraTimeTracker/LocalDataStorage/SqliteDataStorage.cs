@@ -107,7 +107,7 @@ namespace Triosoft.JiraTimeTracker.LocalDataStorage
                      (string)reader["IssueSummary"]);
 
                   yield return new Worklog(
-                     (int)reader["WorklogId"],
+                     (long)reader["WorklogId"],
                      issue, 
                      new DateTime((long)reader["WorklogStart"]),
                      TimeSpan.FromSeconds((long)reader["WorklogDurationInSeconds"]));
