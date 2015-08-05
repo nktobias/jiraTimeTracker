@@ -11,7 +11,6 @@
 * ~~Uploading worklogs to JIRA~~
 * ~~Open issue in browser~~
 * ~~Caching downloaded issues in local database~~
-* Executing all queries and commands via command executor and command interceptors
 
 ### Sprint 2
 
@@ -19,6 +18,7 @@
 
 ### Sprint 3
 
+* Executing all queries and commands via command executor and command interceptors
 * Displaying estimates for each issue
 * Tracking icon in tray
 * Editing settings (delete all local stuff when site or username is changed)
