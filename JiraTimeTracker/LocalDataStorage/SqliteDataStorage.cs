@@ -77,11 +77,26 @@ namespace Triosoft.JiraTimeTracker.LocalDataStorage
          }
       }
 
+      public void DeleteWorklog(Worklog worklog)
+      {
+         if (!worklog.Id.HasValue)
+         {
+            throw new InvalidOperationException();
+         }
+
+         using (SQLiteCommand command = _connection.CreateCommand())
+         {
+            command.CommandText = "DELETE FROM Worklog WHERE Id = @Id";
+            command.Parameters.AddWithValue("@Id", worklog.Id.Value);
+            command.ExecuteNonQuery();
+         }
+      }
+
       public IEnumerable<Worklog> GetWorklogs()
       {
          using (SQLiteCommand command = _connection.CreateCommand())
          {
-            command.CommandText = "SELECT I.Key AS IssueKey, I.Type AS IssueType, I.Summary AS IssueSummary, W.Start AS WorklogStart, W.DurationInSeconds AS WorklogDurationInSeconds FROM Issue I INNER JOIN Worklog W ON I.Key = W.IssueKey";
+            command.CommandText = "SELECT I.Key AS IssueKey, I.Type AS IssueType, I.Summary AS IssueSummary, W.Id AS WorklogId, W.Start AS WorklogStart, W.DurationInSeconds AS WorklogDurationInSeconds FROM Issue I INNER JOIN Worklog W ON I.Key = W.IssueKey";
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
                while (reader.Read())
@@ -92,6 +107,7 @@ namespace Triosoft.JiraTimeTracker.LocalDataStorage
                      (string)reader["IssueSummary"]);
 
                   yield return new Worklog(
+                     (int)reader["WorklogId"],
                      issue, 
                      new DateTime((long)reader["WorklogStart"]),
                      TimeSpan.FromSeconds((long)reader["WorklogDurationInSeconds"]));

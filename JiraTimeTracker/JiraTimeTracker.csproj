@@ -84,6 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Actions\UploadIssuesCommand.cs" />
     <Compile Include="Actions\DownloadIssuesCommand.cs" />
     <Compile Include="Actions\GetNotUploadedWorklogsQuery.cs" />
     <Compile Include="Actions\OpenIssueInDefaultBrowserCommand.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="ApplicationStorageFolder.cs" />
     <Compile Include="Actions\GetLocalIssuesQuery.cs" />
     <Compile Include="Events\EventAggregator.cs" />
+    <Compile Include="Events\WorklogUploadedEventArgs.cs" />
     <Compile Include="Events\WorkLoggedEventArgs.cs" />
     <Compile Include="JiraApiClientFacade.cs" />
     <Compile Include="LocalDataStorage\SqliteDataStorage.cs" />
