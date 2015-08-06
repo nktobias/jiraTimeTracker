@@ -11,14 +11,11 @@
 * ~~Uploading worklogs to JIRA~~
 * ~~Open issue in browser~~
 * ~~Caching downloaded issues in local database~~
-* Executing all queries and commands via command executor and command interceptors
 
 ### Sprint 2
 
-* CI
-
-### Sprint 3
-
+* EventAggregator with weak references
+* Executing all queries and commands via command executor and command interceptors (e.g. for common error handling)
 * Displaying estimates for each issue
 * Tracking icon in tray
 * Editing settings (delete all local stuff when site or username is changed)
