@@ -8,11 +8,23 @@ namespace Triosoft.JiraTimeTracker
 {
    public partial class JiraSettingsWindow
    {
+      public JiraSettings InitialSettings { get; set; }
       public JiraSettings ProvidedSettings { get; private set; }
 
       public JiraSettingsWindow()
       {
          InitializeComponent();
+         Loaded += HandleJiraSettingsWindowLoaded;
+      }
+
+      private void HandleJiraSettingsWindowLoaded(object sender, RoutedEventArgs e)
+      {
+         if (InitialSettings != null)
+         {
+            _baseUrlTextBox.Text = InitialSettings.BaseUrl.ToString();
+            _userNameTextBox.Text = InitialSettings.UserName;
+            _passwordBox.Password = InitialSettings.Password;
+         }
       }
 
       private void HandleOkClick(object sender, RoutedEventArgs e)

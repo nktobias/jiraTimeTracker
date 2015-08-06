@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using Triosoft.JiraTimeTracker.Actions;
 using Triosoft.JiraTimeTracker.Events;
 using Triosoft.JiraTimeTracker.JiraRestApi;
+using Triosoft.JiraTimeTracker.Settings;
 using Triosoft.JiraTimeTracker.WorkLogging;
 
 namespace Triosoft.JiraTimeTracker
@@ -15,6 +16,7 @@ namespace Triosoft.JiraTimeTracker
       private readonly EventAggregator _eventAggregator = new EventAggregator();
 
       private readonly JiraApiClientFacade _jiraApiClientFacade = new JiraApiClientFacade();
+      private readonly JiraSettingsStorage _jiraSettingsStorage = new JiraSettingsStorage();
 
       private int _numberOfNotUploadedWorklogs;
 
@@ -74,6 +76,15 @@ namespace Triosoft.JiraTimeTracker
             await new DownloadIssuesCommand(c).ExecuteAsync();
             RefreshIssuesDataGrid();
          });
+      }
+
+      private void HandleSettingsClick(object sender, RoutedEventArgs e)
+      {
+         JiraSettingsWindow jiraSettingsWindow = new JiraSettingsWindow { Owner = this, InitialSettings = _jiraSettingsStorage.Get() };
+         if (jiraSettingsWindow.ShowDialog() == true)
+         {
+            _jiraSettingsStorage.Set(jiraSettingsWindow.ProvidedSettings);
+         }
       }
 
       private void HandleIssuesDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
