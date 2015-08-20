@@ -19,6 +19,7 @@ namespace Triosoft.JiraTimeTracker
       private readonly JiraSettingsStorage _jiraSettingsStorage = new JiraSettingsStorage();
 
       private int _numberOfNotUploadedWorklogs;
+      private DataGridRow _markedRow;
 
       public MainWindow()
       {
@@ -47,12 +48,14 @@ namespace Triosoft.JiraTimeTracker
       private void HandleStartTrackingClick(object sender, RoutedEventArgs e)
       {
          new StartTrackingWorkOnIssueCommand(GetSelectedIssue(), _workQueue, _eventAggregator).Execute();
+         MarkIssueAsTrackingOn();
          _stopTrackingButton.IsEnabled = true;
       }
 
       private void HandleStopTrackingClick(object sender, RoutedEventArgs e)
       {
          new StopTrackingWorkCommand(_workQueue, _eventAggregator).Execute();
+         MarkIssueAsTrackingOff();
          _stopTrackingButton.IsEnabled = false;
       }
 
@@ -111,6 +114,21 @@ namespace Triosoft.JiraTimeTracker
       private Issue GetSelectedIssue()
       {
          return (Issue)_issuesDataGrid.SelectedItem;
+      }
+
+      private void MarkIssueAsTrackingOn()
+      {
+          MarkIssueAsTrackingOff();
+          _markedRow = _issuesDataGrid.ItemContainerGenerator.ContainerFromItem(_issuesDataGrid.SelectedItem) as DataGridRow;
+          _markedRow.Background = System.Windows.Media.Brushes.MediumSpringGreen;
+      }
+
+      private void MarkIssueAsTrackingOff()
+      {
+          if (_markedRow != null)
+          {
+              _markedRow.Background = System.Windows.Media.Brushes.White;
+          }
       }
 
       private void InvokeJiraApiClientDependentAction(Action<JiraApiClient> action)
