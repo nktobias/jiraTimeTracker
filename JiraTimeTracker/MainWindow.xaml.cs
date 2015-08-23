@@ -109,7 +109,7 @@ namespace Triosoft.JiraTimeTracker
       }
 
       private void RefreshIssuesDataGrid()
-      {
+      {         
          _issuesDataGrid.ItemsSource = new GetLocalIssuesQuery().Execute();
       }
 

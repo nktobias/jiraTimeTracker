@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,20 +17,15 @@ namespace Triosoft.JiraTimeTracker
 
       public event EventHandler DoubleClick;
 
-      Icon _idleIcon = new System.Drawing.Icon(@"..\..\Icons\logo.ico");
-
-      Icon[] _porgressIcons = new Icon[]
-      {
-         new System.Drawing.Icon(@"..\..\Icons\1.ico"),
-         new System.Drawing.Icon(@"..\..\Icons\2.ico"),
-         new System.Drawing.Icon(@"..\..\Icons\3.ico"),
-         new System.Drawing.Icon(@"..\..\Icons\4.ico")
-      };
+      Icon _idleIcon;     
+      List<Icon> _porgressIcons = new List<Icon>();
 
       private const int MilisecondsInterval = 750;
 
       public ProgressNotifyIcon()
       {
+         InitializeIcons();
+
          _notifyIcon = new NotifyIcon();
          _notifyIcon.DoubleClick += HandleOnDoubleClick;
          _notifyIcon.Icon = _idleIcon;
@@ -38,6 +34,17 @@ namespace Triosoft.JiraTimeTracker
          _timer = new Timer();
          _timer.Interval = MilisecondsInterval;
          _timer.Tick += HandleOnTimerTicked;
+      }
+
+      private void InitializeIcons()
+      {
+         Stream iconStream = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/JiraTimeTracker;component/Icons/logo.ico")).Stream;
+         _idleIcon = new Icon(iconStream);
+
+         _porgressIcons.Add(new Icon(System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/JiraTimeTracker;component/Icons/1.ico")).Stream));
+         _porgressIcons.Add(new Icon(System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/JiraTimeTracker;component/Icons/2.ico")).Stream));
+         _porgressIcons.Add(new Icon(System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/JiraTimeTracker;component/Icons/3.ico")).Stream));
+         _porgressIcons.Add(new Icon(System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/JiraTimeTracker;component/Icons/4.ico")).Stream));
       }
 
       private void HandleOnDoubleClick(object sender, EventArgs e)
@@ -55,7 +62,7 @@ namespace Triosoft.JiraTimeTracker
 
       private Icon GetNext()
       {
-         if (_progress >= _porgressIcons.Length-1)
+         if (_progress >= _porgressIcons.Count-1)
          {
             _progress = -1;
          }
@@ -82,3 +89,4 @@ namespace Triosoft.JiraTimeTracker
       
    }
 }
+
