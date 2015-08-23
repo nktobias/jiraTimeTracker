@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using Triosoft.JiraTimeTracker.Actions;
 using Triosoft.JiraTimeTracker.Events;
 using Triosoft.JiraTimeTracker.JiraRestApi;
@@ -20,10 +22,13 @@ namespace Triosoft.JiraTimeTracker
 
       private int _numberOfNotUploadedWorklogs;
       private DataGridRow _markedRow;
+      private ProgressNotifyIcon _progressNotifyIcon;
 
       public MainWindow()
       {
          InitializeComponent();
+         _progressNotifyIcon = new ProgressNotifyIcon();
+         _progressNotifyIcon.DoubleClick += HandleOnNotifyIconDoubleClicked;
          _eventAggregator.Subscribe<WorkLoggedEventArgs>(x =>
          {
             _numberOfNotUploadedWorklogs++;
@@ -49,6 +54,7 @@ namespace Triosoft.JiraTimeTracker
       {
          new StartTrackingWorkOnIssueCommand(GetSelectedIssue(), _workQueue, _eventAggregator).Execute();
          MarkIssueAsTrackingOn();
+         _progressNotifyIcon.Start();
          _stopTrackingButton.IsEnabled = true;
       }
 
@@ -56,6 +62,7 @@ namespace Triosoft.JiraTimeTracker
       {
          new StopTrackingWorkCommand(_workQueue, _eventAggregator).Execute();
          MarkIssueAsTrackingOff();
+         _progressNotifyIcon.Stop();
          _stopTrackingButton.IsEnabled = false;
       }
 
@@ -147,6 +154,26 @@ namespace Triosoft.JiraTimeTracker
          if (client != null)
          {
             action(client);
+         }
+      }
+
+      private void HandleOnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+      {
+         _progressNotifyIcon.Hide();
+      }
+
+      private void HandleOnNotifyIconDoubleClicked(object sender, EventArgs e)
+      {
+         this.WindowState = WindowState.Normal;
+         this.Visibility = System.Windows.Visibility.Visible;
+         SystemCommands.RestoreWindow(this);
+      }      
+
+      private void HandleOnStateChanged(object sender, EventArgs e)
+      {
+         if (this.WindowState == WindowState.Minimized)
+         {
+            this.Visibility = System.Windows.Visibility.Collapsed;
          }
       }
    }
