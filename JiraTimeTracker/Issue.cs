@@ -1,5 +1,6 @@
 ﻿namespace Triosoft.JiraTimeTracker
 {
+//test hotfix
    public class Issue
    {
       public Issue(string key, string type, string summary)
